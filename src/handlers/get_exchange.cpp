@@ -17,9 +17,9 @@ namespace currexch_service::handlers::exchange::get {
 namespace {
 
 struct RequestData {
-  std::string base_currency_code;
-  std::string target_currency_code;
-  std::string amount;
+  std::string base_currency_code_;
+  std::string target_currency_code_;
+  std::string amount_;
 };
 
 RequestData ParseRequest(const engine::http_server::HttpRequest& request) {
@@ -72,12 +72,12 @@ void Handler::HandleRequest(
   const auto request_data = ParseRequest(*request);
 
   const auto [base_curr, target_curr] = FindCurrencyPairByCodes(
-      request_data.base_currency_code, request_data.target_currency_code);
+      request_data.base_currency_code_, request_data.target_currency_code_);
 
   if (const auto exch_rate = FindExchangeRateByCurrencyPair(
           base_curr->model_.currency_id, target_curr->model_.currency_id)) {
     const Decimal rate{exch_rate->model_.rate};
-    const Decimal amount{request_data.amount};
+    const Decimal amount{request_data.amount_};
 
     const auto converted_amount =
         calcs::CalcConvAmount(rate, amount).str(2, std::ios::fixed);
@@ -92,7 +92,7 @@ void Handler::HandleRequest(
   if (const auto exch_rate = FindExchangeRateByCurrencyPair(
           target_curr->model_.currency_id, base_curr->model_.currency_id)) {
     const Decimal rate{exch_rate->model_.rate};
-    const Decimal amount{request_data.amount};
+    const Decimal amount{request_data.amount_};
     const auto reverse_rate = calcs::CalcReverseRate(rate);
 
     const auto converted_amount = calcs::CalcConvAmount(reverse_rate, amount);
@@ -108,7 +108,7 @@ void Handler::HandleRequest(
       base_curr->model_.currency_id, target_curr->model_.currency_id);
   const auto rate = calcs::CalcRateByUsdExchRates(usd_base->model_.rate,
                                                   usd_target->model_.rate);
-  const Decimal amount{request_data.amount};
+  const Decimal amount{request_data.amount_};
   const auto converted_amount =
       calcs::CalcConvAmount(rate, amount).str(2, std::ios::fixed);
 

@@ -15,9 +15,9 @@ namespace currexch_service::handlers::exchange_rate::patch {
 namespace {
 
 struct RequestData {
-  std::string base_currency_code;
-  std::string target_currency_code;
-  std::string rate;
+  std::string base_currency_code_;
+  std::string target_currency_code_;
+  std::string rate_;
 };
 
 using ExchangeRateIDs = std::vector<std::int32_t>;
@@ -101,20 +101,20 @@ void Handler::HandleRequest(
   };
 
   const auto base_curr =
-      curr_cache_->GetCurrencyByCode(request_data.base_currency_code);
+      curr_cache_->GetCurrencyByCode(request_data.base_currency_code_);
   if (!base_curr) {
     response->SetStatusCode(engine::http_server::HttpStatus::kNotFound);
     return response->Send(utils::MakeError("Base currency not found"));
   }
   const auto target_curr =
-      curr_cache_->GetCurrencyByCode(request_data.target_currency_code);
+      curr_cache_->GetCurrencyByCode(request_data.target_currency_code_);
   if (!target_curr) {
     response->SetStatusCode(engine::http_server::HttpStatus::kNotFound);
     return response->Send(utils::MakeError("Target currency not found"));
   }
 
   pg_client_->Execute<ExchangeRateIDs>(
-      ozo::make_query(sql::kUpdateExchangeRateByCurrPair, request_data.rate,
+      ozo::make_query(sql::kUpdateExchangeRateByCurrPair, request_data.rate_,
                       base_curr->model_.currency_id,
                       target_curr->model_.currency_id),
       insert_handler);

@@ -1,0 +1,3 @@
+[submodule "engine/third_party/ozo"]
+	path = engine/third_party/ozo
+	url = https://github.com/yandex/ozo.git

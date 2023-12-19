@@ -13,9 +13,9 @@ namespace currexch_service::handlers::currencies::post {
 namespace {
 
 struct RequestData {
-  std::string code;
-  std::string full_name;
-  std::string sign;
+  std::string code_;
+  std::string full_name_;
+  std::string sign_;
 };
 
 RequestData ParseRequest(
@@ -94,8 +94,8 @@ void Handler::HandleRequest(
   };
 
   pg_client_->Execute<models::CurrenciesVec>(
-      ozo::make_query(sql::kInsertNewCurrency, request_data.code,
-                      request_data.full_name, request_data.sign),
+      ozo::make_query(sql::kInsertNewCurrency, request_data.code_,
+                      request_data.full_name_, request_data.sign_),
       query_handler);
 }
 

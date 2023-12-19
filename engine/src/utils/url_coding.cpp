@@ -21,19 +21,19 @@ char HexStrToBin(std::string_view str) {
 }
 
 std::string UrlEncode(std::string_view str) {
-  std::string out;
+  std::string output;
   for (size_t i = 0; i < str.size(); ++i) {
     char ch = str[i];
     if (std::isalnum((std::uint8_t)ch)) {
-      out.push_back(ch);
+      output.push_back(ch);
     } else {
       std::array<char, 4> buf;
       std::sprintf(buf.data(), "%%%X%X", (std::uint8_t)ch >> 4,
                    (std::uint8_t)ch & 0x0F);
-      out.append(buf.data());
+      output.append(buf.data());
     }
   }
-  return out;
+  return output;
 }
 
 std::string UrlDecode(std::string_view str) {
