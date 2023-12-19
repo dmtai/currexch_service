@@ -31,8 +31,9 @@ void CurrenciesCache::FullUpdateCache(const Rows& rows) {
   }
   currency_by_id_ = std::move(currency_by_id);
   currency_by_code_ = std::move(currency_by_code);
-  all_currencies_json_.exchange(
-      std::make_shared<std::string>(all_currencies_json.dump()));
+  
+  all_currencies_json_.exchange(std::make_shared<std::string>(
+      all_currencies_json.empty() ? "" : all_currencies_json.dump()));
 }
 
 void CurrenciesCache::UpdateCache(const Rows& rows) {
