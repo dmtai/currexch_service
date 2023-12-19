@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  currexch_service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ./build_release/currexch_service --config ./configs/config.yaml
+    working_dir: /currexch_service
+    depends_on:
+      - postgres
+    networks:
+      - postgres 
+    ports:
+      - "1234:1234"
+
+  postgres:
+    image: postgres:12
+    container_name: postgres_container
+    environment:
+      - POSTGRES_DB=currexch_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=12345
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d
+    networks:
+      - postgres
+
+networks:
+  postgres:
+    driver: bridge

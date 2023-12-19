@@ -1,0 +1,56 @@
+general:
+    address: 0.0.0.0
+    port: 1234
+    session_timeout: 10000
+    log_path: "./log.log"
+    log_level: "debug"
+
+http-handlers:
+    get_currencies:
+        path: /currencies
+        method: GET
+
+    get_currency:
+        path: /currency/{code}
+        method: GET
+
+    get_exchange_rates:
+        path: /exchangerates
+        method: GET
+
+    get_exchange_rate:
+        path: /exchangerate/{curr_pair}
+        method: GET
+
+    post_currencies:
+        path: /currencies
+        method: POST
+
+    post_exchange_rates:
+        path: /exchangerates
+        method: POST
+
+    patch_exchange_rate:
+        path: /exchangerate/{curr_pair}
+        method: PATCH
+
+    get_exchange:
+        path: /exchange
+        method: GET
+
+components:
+    pg_client:
+        connection_info: 'postgresql://postgres:12345@postgres_container:5432/currexch_db'
+        connection_pool_capacity: 16
+        connection_pool_idle_timeout: 60
+
+    currencies_cache:
+        update_timeout: 2000
+        full_update_timeout: 20000
+
+    exchange_rates_cache:
+        update_timeout: 1000
+        full_update_timeout: 20000
+
+    server_io_context:
+        threads_num: 12
