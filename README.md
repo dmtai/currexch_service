@@ -2,6 +2,7 @@ Service for currency exchange. For create the service, an engine was developed. 
 #### Build and run
 ```
 git clone --recurse-submodule https://github.com/dmtai/currexch_service.git
+cd currexch_service
 
 # Run the service with docker-compose
 make docker-run
