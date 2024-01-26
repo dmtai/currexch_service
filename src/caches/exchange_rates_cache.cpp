@@ -23,7 +23,7 @@ void ExchangeRatesCache::FullUpdateCache(const Rows& rows) {
   for (const auto& row : rows) {
     auto row_ptr = std::make_shared<const ExchangeRate>(std::move(row));
     exchange_rate_by_id.insert(row_ptr->model_.exchange_rate_id, row_ptr);
-    exchange_rate_by_curr_pair.insert_or_assign(
+    exchange_rate_by_curr_pair.insert(
         CurrencyPair{row_ptr->model_.base_currency_id,
                      row_ptr->model_.target_currency_id},
         row_ptr);
