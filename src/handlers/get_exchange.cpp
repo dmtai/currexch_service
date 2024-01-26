@@ -51,7 +51,7 @@ RequestData ParseRequest(const engine::http_server::HttpRequest& request) {
   auto amount = query->find("amount");
   if (amount == query->end() || !amount->has_value) {
     throw engine::http_server::HttpException{
-        utils::MakeError("Parameter 'to' is required"),
+        utils::MakeError("Parameter 'amount' is required"),
         engine::http_server::HttpStatus::kBadRequest};
   }
 
