@@ -257,7 +257,7 @@ class PgCache : public PgCacheBase {
     cv_.notify_all();
   }
 
- public:
+ private:
   const config::PgCacheConfig config_;
   PgCacheUpdater<RowType> updater_;
   PgCacheUpdater<RowType> full_updater_;
